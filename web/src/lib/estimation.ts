@@ -1,5 +1,5 @@
 import { UTMB_WORLD_SERIES_RACES } from "@/data/races";
-import { SAMPLE_PERFORMANCES } from "@/data/sample-performances";
+import { PERFORMANCES, PERFORMANCES_SOURCE, REAL_PERFORMANCES } from "@/data/performances";
 import { raceTimeFromVdot } from "@/lib/daniels";
 import { computeEffectiveUtmbIndex } from "@/lib/profile";
 import { gaussianWeight, weightedQuantile } from "@/lib/stats";
@@ -34,7 +34,7 @@ export function estimateFinishTime(req: EstimateRequest): EstimateResult {
     req.profile,
   );
 
-  const raceRows = SAMPLE_PERFORMANCES.filter((p) => p.raceId === race.id);
+  const raceRows = PERFORMANCES.filter((p) => p.raceId === race.id);
   const notes = [...profileNotes];
 
   if (raceRows.length === 0) {
@@ -76,9 +76,15 @@ export function estimateFinishTime(req: EstimateRequest): EstimateResult {
   const p50Seconds = p50 ?? base;
   const p90Seconds = p90 ?? Math.round(base * 1.15);
 
-  notes.push(
-    "Données historiques: jeu synthétique (MVP). Branchez une ingestion de résultats réels pour fiabiliser.",
-  );
+  if (PERFORMANCES_SOURCE === "sample") {
+    notes.push(
+      "Données historiques: jeu synthétique (MVP). Remplace-le en remplissant `src/data/real-performances.json`.",
+    );
+  } else {
+    notes.push(
+      `Données historiques: ${REAL_PERFORMANCES.length} résultats réels chargés depuis \`src/data/real-performances.json\`.`,
+    );
+  }
 
   const vdot = clamp(effectiveUtmbIndex / 12.5, 10, 95);
   const roadEquivalences = {

@@ -1,0 +1,15 @@
+{
+  "name": "utmb-time-estimator",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix web ci",
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "start": "npm --prefix web run start",
+    "lint": "npm --prefix web run lint"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
+

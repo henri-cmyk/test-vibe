@@ -10,7 +10,8 @@ npm run dev
 ## Où modifier les données
 
 - **Courses**: `src/data/races.ts`
-- **Performances (MVP synthétique)**: `src/data/sample-performances.ts`
+- **Performances réelles (à remplir)**: `src/data/real-performances.json`
+- **Performances (fallback synthétique)**: `src/data/sample-performances.ts`
 
 ## Endpoints
 
