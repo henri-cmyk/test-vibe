@@ -5,20 +5,20 @@ Cette repo contient une application web (Next.js) permettant d’estimer un temp
 ## Démarrer en local
 
 ```bash
-npm --prefix web install
-npm --prefix web run dev
+npm install
+npm run dev
 ```
 
 Puis ouvrir `http://localhost:3000`.
 
 ## Notes (MVP)
 
-- Les courses UTMB World Series sont pour l’instant une **liste de base** dans `web/src/data/races.ts`.
-- Les “performances historiques” utilisées pour l’estimation sont **synthétiques** (`web/src/data/sample-performances.ts`) afin de poser l’architecture.
+- Les courses UTMB World Series sont pour l’instant une **liste de base** dans `src/data/races.ts`.
+- Les “performances historiques” utilisées pour l’estimation sont **synthétiques** (`src/data/sample-performances.ts`) afin de poser l’architecture.
 
 ## Ajouter des résultats réels
 
-Remplir `web/src/data/real-performances.json` avec un tableau d’objets:
+Remplir `src/data/real-performances.json` avec un tableau d’objets:
 
 ```json
 [
