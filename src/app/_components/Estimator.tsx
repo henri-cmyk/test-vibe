@@ -1,9 +1,11 @@
 "use client";
 
+import { UTMB_WORLD_SERIES_RACES } from "@/data/races";
 import { TRAIL_CLASSICS } from "@/data/trail-classics";
+import { estimateFinishTime } from "@/lib/estimation";
 import { formatSecondsToHms, parseHmsToSeconds } from "@/lib/time";
-import type { EstimateResult, UtmbRace } from "@/lib/types";
-import { useEffect, useMemo, useState } from "react";
+import type { EstimateResult } from "@/lib/types";
+import { useMemo, useState } from "react";
 
 type FormState = {
   utmbIndex: string;
@@ -43,30 +45,12 @@ function RaceBadge({ children }: { children: React.ReactNode }) {
 }
 
 export function Estimator() {
-  const [races, setRaces] = useState<UtmbRace[]>([]);
-  const [raceId, setRaceId] = useState<string>("");
+  const races = UTMB_WORLD_SERIES_RACES.filter((r) => r.utmbWorldSeries);
+  const [raceId, setRaceId] = useState<string>(races[0]?.id ?? "");
   const [form, setForm] = useState<FormState>(initialForm);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<EstimateResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch("/api/races");
-        const json = (await res.json()) as { races: UtmbRace[] };
-        if (cancelled) return;
-        setRaces(json.races ?? []);
-        setRaceId((json.races?.[0]?.id as string) ?? "");
-      } catch {
-        if (!cancelled) setError("Impossible de charger la liste des courses.");
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const selectedRace = useMemo(
     () => races.find((r) => r.id === raceId) ?? null,
@@ -112,20 +96,8 @@ export function Estimator() {
 
     setIsLoading(true);
     try {
-      const res = await fetch("/api/estimate", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json: unknown = await res.json();
-      if (!res.ok) {
-        const maybeError =
-          typeof json === "object" && json !== null && "error" in json
-            ? (json as { error?: unknown }).error
-            : undefined;
-        throw new Error(typeof maybeError === "string" ? maybeError : "Erreur serveur");
-      }
-      setResult(json as EstimateResult);
+      const r = estimateFinishTime(payload);
+      setResult(r);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
