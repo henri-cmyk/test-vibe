@@ -117,13 +117,17 @@ export function Estimator() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const json = (await res.json()) as any;
+      const json: unknown = await res.json();
       if (!res.ok) {
-        throw new Error(json?.error ?? "Erreur serveur");
+        const maybeError =
+          typeof json === "object" && json !== null && "error" in json
+            ? (json as { error?: unknown }).error
+            : undefined;
+        throw new Error(typeof maybeError === "string" ? maybeError : "Erreur serveur");
       }
       setResult(json as EstimateResult);
-    } catch (e: any) {
-      setError(String(e?.message ?? e));
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setIsLoading(false);
     }
