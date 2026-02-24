@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Calculatrice</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="Calculatrice">
+      <section class="calculator" aria-label="Calculatrice">
+        <header class="display" aria-label="Affichage">
+          <div id="displaySecondary" class="display__secondary" aria-live="polite"></div>
+          <div
+            id="displayMain"
+            class="display__main"
+            aria-live="polite"
+            aria-label="Résultat"
+          >
+            0
+          </div>
+          <div id="memoryIndicator" class="display__memory" aria-hidden="true">M</div>
+        </header>
+
+        <div class="keys" role="group" aria-label="Touches">
+          <button class="key key--util" data-action="memoryClear" aria-label="Effacer mémoire">
+            MC
+          </button>
+          <button class="key key--util" data-action="memoryRecall" aria-label="Rappel mémoire">
+            MR
+          </button>
+          <button class="key key--util" data-action="memoryPlus" aria-label="Ajouter à la mémoire">
+            M+
+          </button>
+          <button
+            class="key key--util"
+            data-action="memoryMinus"
+            aria-label="Soustraire de la mémoire"
+          >
+            M-
+          </button>
+
+          <button id="clearKey" class="key key--util" data-action="clear" aria-label="Effacer">
+            AC
+          </button>
+          <button class="key key--util" data-action="backspace" aria-label="Retour arrière">
+            ⌫
+          </button>
+          <button class="key key--util" data-action="percent" aria-label="Pourcentage">
+            %
+          </button>
+          <button class="key key--op" data-action="operator" data-value="/" aria-label="Diviser">
+            ÷
+          </button>
+
+          <button class="key key--num" data-action="digit" data-value="7">7</button>
+          <button class="key key--num" data-action="digit" data-value="8">8</button>
+          <button class="key key--num" data-action="digit" data-value="9">9</button>
+          <button class="key key--op" data-action="operator" data-value="*" aria-label="Multiplier">
+            ×
+          </button>
+
+          <button class="key key--num" data-action="digit" data-value="4">4</button>
+          <button class="key key--num" data-action="digit" data-value="5">5</button>
+          <button class="key key--num" data-action="digit" data-value="6">6</button>
+          <button class="key key--op" data-action="operator" data-value="-" aria-label="Soustraire">
+            −
+          </button>
+
+          <button class="key key--num" data-action="digit" data-value="1">1</button>
+          <button class="key key--num" data-action="digit" data-value="2">2</button>
+          <button class="key key--num" data-action="digit" data-value="3">3</button>
+          <button class="key key--op" data-action="operator" data-value="+" aria-label="Additionner">
+            +
+          </button>
+
+          <button class="key key--num key--zero" data-action="digit" data-value="0">0</button>
+          <button class="key key--num" data-action="decimal" aria-label="Virgule décimale">.</button>
+          <button class="key key--util" data-action="sign" aria-label="Changer le signe">
+            +/−
+          </button>
+          <button class="key key--eq" data-action="equals" aria-label="Égal">=</button>
+        </div>
+      </section>
+
+      <footer class="hint" aria-label="Aide clavier">
+        Clavier : chiffres, <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd>, <kbd>Entrée</kbd>
+        (=), <kbd>Backspace</kbd>, <kbd>Esc</kbd>.
+      </footer>
+    </main>
+
+    <script src="./calculator-core.js"></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
