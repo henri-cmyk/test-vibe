@@ -1,0 +1,215 @@
+:root {
+  --bg0: #0b0f19;
+  --bg1: #0f172a;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel2: rgba(255, 255, 255, 0.10);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.62);
+  --shadow: rgba(0, 0, 0, 0.45);
+
+  --key: rgba(255, 255, 255, 0.08);
+  --keyHover: rgba(255, 255, 255, 0.12);
+  --keyActive: rgba(255, 255, 255, 0.16);
+  --op: rgba(99, 102, 241, 0.25);
+  --opHover: rgba(99, 102, 241, 0.35);
+  --eq: rgba(34, 197, 94, 0.26);
+  --eqHover: rgba(34, 197, 94, 0.38);
+  --util: rgba(255, 255, 255, 0.10);
+  --utilHover: rgba(255, 255, 255, 0.14);
+
+  --radius: 20px;
+  --radiusKey: 16px;
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans",
+    "Liberation Sans", sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg0: #f7f7fb;
+    --bg1: #e9ecf7;
+    --panel: rgba(0, 0, 0, 0.06);
+    --panel2: rgba(0, 0, 0, 0.10);
+    --text: rgba(0, 0, 0, 0.86);
+    --muted: rgba(0, 0, 0, 0.58);
+    --shadow: rgba(0, 0, 0, 0.12);
+
+    --key: rgba(0, 0, 0, 0.06);
+    --keyHover: rgba(0, 0, 0, 0.10);
+    --keyActive: rgba(0, 0, 0, 0.14);
+    --op: rgba(99, 102, 241, 0.16);
+    --opHover: rgba(99, 102, 241, 0.22);
+    --eq: rgba(34, 197, 94, 0.18);
+    --eqHover: rgba(34, 197, 94, 0.25);
+    --util: rgba(0, 0, 0, 0.08);
+    --utilHover: rgba(0, 0, 0, 0.12);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: radial-gradient(1200px 700px at 20% 0%, rgba(99, 102, 241, 0.24), transparent 55%),
+    radial-gradient(900px 600px at 100% 20%, rgba(34, 197, 94, 0.16), transparent 55%),
+    linear-gradient(160deg, var(--bg0), var(--bg1));
+}
+
+.app {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+  gap: 18px;
+}
+
+.calculator {
+  width: min(420px, 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px var(--shadow);
+  backdrop-filter: blur(10px);
+  padding: 18px;
+}
+
+.display {
+  position: relative;
+  border-radius: 16px;
+  padding: 16px 14px 14px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.display__secondary {
+  min-height: 20px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: var(--muted);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.display__main {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(34px, 7vw, 44px);
+  line-height: 1.15;
+  text-align: right;
+  padding-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.display__memory {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 120ms ease, transform 120ms ease;
+  user-select: none;
+}
+
+.display__memory.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.keys {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.key {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--key);
+  color: var(--text);
+  border-radius: var(--radiusKey);
+  padding: 14px 12px;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+  transition: transform 70ms ease, background 120ms ease, border-color 120ms ease;
+  user-select: none;
+}
+
+.key:hover {
+  background: var(--keyHover);
+}
+
+.key:active {
+  transform: translateY(1px);
+  background: var(--keyActive);
+}
+
+.key:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.65);
+  outline-offset: 2px;
+}
+
+.key--util {
+  background: var(--util);
+}
+.key--util:hover {
+  background: var(--utilHover);
+}
+
+.key--op {
+  background: var(--op);
+}
+.key--op:hover {
+  background: var(--opHover);
+}
+
+.key--eq {
+  background: var(--eq);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+.key--eq:hover {
+  background: var(--eqHover);
+}
+
+.key--zero {
+  grid-column: span 2;
+  text-align: left;
+  padding-left: 18px;
+}
+
+.hint {
+  width: min(420px, 100%);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+  padding: 1px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+

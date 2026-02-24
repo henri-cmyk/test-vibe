@@ -1,0 +1,11 @@
+{
+  "name": "application-calculatrice",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Une petite application de calculatrice (HTML/CSS/JS) avec tests Node.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  }
+}
+
